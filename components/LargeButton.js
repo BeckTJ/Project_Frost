@@ -1,10 +1,10 @@
 import { Pressable,Text, StyleSheet, View } from "react-native";
 
-export default LargeButton =({props,onPress})=> {
+export default LargeButton =(props)=> {
     return(
         
         <Pressable style={({pressed}) => [styles.button, pressed ? styles.buttonPress : {}]}
-         onPress={onPress}>
+        onPress={props.onPress}>
             <Text style={styles.text}>{props.title}</Text>
         </Pressable>
         

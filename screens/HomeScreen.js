@@ -1,34 +1,44 @@
-import {Text, View, StyleSheet} from 'react-native'
+import {Text, View, ScrollView, StyleSheet, FlatList} from 'react-native'
 import LargeButton from '../components/LargeButton';
 
+const distOptions = ['Raw Material', 'Sample', 'Distillation', ''];
 
-export default HomeScreen = ({navigation, props}) => {
+export default HomeScreen = ({navigation}) => {
+    
+    const renderItem = ({item}) =>(
+        <View style={styles.buttons}>
+            <LargeButton title={item} onPress={() => {navigation.navigate(item)}} />
+        </View>
+    );
+
    return( 
     <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <LargeButton title={'test'} onPress={() => {navigation.navigate('Raw Material')}} />
+        <Text style={styles.text}>Home Screen</Text>
+        <View style={styles.buttonGrid}>
+            <FlatList  
+                data={distOptions}
+                renderItem={renderItem}
+                numColumns={2}  
+            />
+        </View>
     </View>
    );
 }
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
-        justifyContent: 'center',
-    },
-    button: {
-        margin: 10,
-        borderWidth: 2,
-        borderRadius: 8,
-        padding: 50,      
-        backgroundColor: 'lightblue',
-    },
-    grid:{
-        flexDirection: 'row',
         flex:1,
-        
+        margin:25,
+        alignItems:'center'
     },
-    column: {
-        flex:1,
+    buttonGrid:{
+        marginTop: 250,
+    },
+    text:{
+        fontSize: 32,
+        textAlign: 'center',
+    },
+    buttons: {
         
-    }
+        margin: 25,
+    },
 });
