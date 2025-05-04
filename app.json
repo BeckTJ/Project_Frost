@@ -2,6 +2,11 @@
   "expo": {
     "name": "Project_Frost",
     "slug": "Project_Frost",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "fb4123b6-5929-4ff1-952a-c3b0652aacfe"
+      }
+    }
   }
 }
