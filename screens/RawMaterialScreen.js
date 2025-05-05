@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
+import Vendor from '../data/Vendor';
 
 export default RawMaterialScreen = () =>{
     
+    const vendor = Vendor(12345,"Store", "tomato");
+    const hpMaterial = Material();
     const [material, setMaterial] = useState({
         materialNumber : 0,
         materialName : 'ATRP',
-        vendorName : 'Symrise',
-
+        vendorName : vendor.vendorName,
     });
 
     return(
