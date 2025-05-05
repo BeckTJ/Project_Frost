@@ -5,11 +5,11 @@ import Vendor from '../data/Vendor';
 export default RawMaterialScreen = () =>{
     
     const vendor = Vendor(12345,"Store", "tomato");
-    const hpMaterial = Material();
+    const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
     const [material, setMaterial] = useState({
         materialNumber : 0,
         materialName : 'ATRP',
-        vendorName : vendor.vendorName,
+        vendorName :'Store',
     });
 
     return(
