@@ -4,12 +4,18 @@ import Vendor from '../data/Vendor';
 
 export default RawMaterialScreen = () =>{
     
-    const vendor = Vendor(12345,"Store", "tomato");
-    const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
+    // const vendor = Vendor(12345,"Store", "Cow");
+    // const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
     const [material, setMaterial] = useState({
         materialNumber : 0,
-        materialName : 'ATRP',
-        vendorName :'Store',
+        materialName : '',
+        vendorName :'',
+        vendorLotNumber: '',
+        batchNumber: 0,
+        inspectionLotNumber: 0,
+        materialType: '',
+        containerId: '',
+        containerWeight: 0,
     });
 
     return(
@@ -28,23 +34,51 @@ export default RawMaterialScreen = () =>{
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Material Name</Text>
+                    <Text style={styles.inputTitle}>Material Type</Text>
                     <TextInput
                         style={styles.input}
-                        value={material.materialName}
-                        onChange={setMaterial.materialName}
-                        placeholder="Material Name"
-                        readOnly={true}
+                        value={material.materialType}
+                        onChange={setMaterial.materialType}
+                        placeholder="Batch Number"
+                        keyboardType="number-pad"
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Vendor Name</Text>
+                    <Text style={styles.inputTitle}>Vendor Lot Number</Text>
                     <TextInput
                         style={styles.input}
-                        value={material.vendorName}
-                        onChange={setMaterial.vendorName}
-                        placeholder="Vendor Name"
-                        readOnly={true}
+                        value={material.vendorLotNumber}
+                        onChange={setMaterial.vendorLotNumber}
+                        placeholder="Vendor Lot Number"
+                    />
+                </View>
+                <View style={styles.inputView}>
+                    <Text style={styles.inputTitle}>Batch Number</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={material.batchNumber}
+                        onChange={setMaterial.batchNumber}
+                        placeholder="Batch Number"
+                        keyboardType="number-pad"
+                    />
+                </View>
+                <View style={styles.inputView}>
+                    <Text style={styles.inputTitle}>Inspection Lot Number</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={material.inspectionLotNumber}
+                        onChange={setMaterial.inspectionLotNumber}
+                        placeholder="Inspection Lot Number"
+                        keyboardType="number-pad"
+                    />
+                </View>
+                <View style={styles.inputView}>
+                    <Text style={styles.inputTitle}>Container Number</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={material.containerId}
+                        onChange={setMaterial.containerId}
+                        placeholder="CTN"
                     />
                 </View>
             </View>
