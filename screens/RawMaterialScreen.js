@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 import Vendor from '../data/Vendor';
+import UserInputFields from "../components/UserInputFields";
 
 export default RawMaterialScreen = () =>{
     
@@ -22,66 +23,8 @@ export default RawMaterialScreen = () =>{
         <View style={styles.container}>
             <Text style={styles.textHeader}>Raw Material ({material.materialName})</Text>
 
-            <View style={styles.formView}>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Material Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.materialNumber}
-                        onChange={setMaterial.materialNumber}
-                        placeholder="Material Number"
-                        keyboardType="number-pad"
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Material Type</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.materialType}
-                        onChange={setMaterial.materialType}
-                        placeholder="Batch Number"
-                        keyboardType="number-pad"
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Vendor Lot Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.vendorLotNumber}
-                        onChange={setMaterial.vendorLotNumber}
-                        placeholder="Vendor Lot Number"
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Batch Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.batchNumber}
-                        onChange={setMaterial.batchNumber}
-                        placeholder="Batch Number"
-                        keyboardType="number-pad"
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Inspection Lot Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.inspectionLotNumber}
-                        onChange={setMaterial.inspectionLotNumber}
-                        placeholder="Inspection Lot Number"
-                        keyboardType="number-pad"
-                    />
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.inputTitle}>Container Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={material.containerId}
-                        onChange={setMaterial.containerId}
-                        placeholder="CTN"
-                    />
-                </View>
-            </View>
+            <UserInputFields materials={[material,setMaterial]} />
+            
         </View>
    
 
