@@ -1,8 +1,8 @@
 import { Text, TextInput, View, StyleSheet } from "react-native";
 
 export default UserInputFields =(props)=>{
-    const material = props.materials.material;
-    const setMaterial = props.materials.setMaterial;
+    const material = props.materials;
+
 
     return(
         <View style={styles.formView}>

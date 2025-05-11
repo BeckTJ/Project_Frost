@@ -7,7 +7,7 @@ export default RawMaterialScreen = () =>{
     
     // const vendor = Vendor(12345,"Store", "Cow");
     // const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
-    const [material, setMaterial] = useState({
+    const [material] = useState({
         materialNumber : 0,
         materialName : '',
         vendorName :'',
@@ -23,7 +23,7 @@ export default RawMaterialScreen = () =>{
         <View style={styles.container}>
             <Text style={styles.textHeader}>Raw Material ({material.materialName})</Text>
 
-            <UserInputFields materials={[material,setMaterial]} />
+            <UserInputFields materials={material} />
             
         </View>
    
