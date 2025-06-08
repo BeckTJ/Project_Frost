@@ -1,13 +1,13 @@
 class Material{
-    constructor(id, name, binomial, permitNumber, code, batchManaged, sequenceId, totalRecords, unitOfIssue){
-        this.id=id;
-        this.name = name;
-        this.binomial = binomial;
-        this.permitNumber = permitNumber;
-        this.code = code;
-        this.batchManaged = batchManaged;
-        this.sequenceId = sequenceId;
-        this.totalRecords = totalRecords;
-        this.unitOfIssue = unitOfIssue;
+    constructor(props){
+        this.id=props.id;
+        this.name = props.name;
+        this.binomial = props.binomial;
+        this.permitNumber = props.permitNumber;
+        this.code = props.code;
+        this.batchManaged = props.batchManaged;
+        this.sequenceId = props.sequenceId;
+        this.totalRecords = props.totalRecords;
+        this.unitOfIssue = props.unitOfIssue;
     }
 }
