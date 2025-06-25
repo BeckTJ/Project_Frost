@@ -5,4 +5,7 @@ class Vendor{
         this.vendorLotNumber = vendorLotNumber;
     }
     
+    getVendorLot(){
+        const vendorLot = VendorAjax.fetchVendorLots(materialNumber);
+    }
 }

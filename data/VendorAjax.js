@@ -11,4 +11,13 @@ export default{
             console.error(error);
         }
     },
+    async fetchVendorLots(materialNumber){
+        try{
+            const response = await fetch(ravenapi + '');
+            const responseJson = await response.json();
+            return responseJson;
+        }catch(err){
+            console.error(err);
+        }
+    },
 }
