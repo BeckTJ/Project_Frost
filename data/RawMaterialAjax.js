@@ -27,7 +27,7 @@ export default{
       async fetchVendorLot(lotNumber) {
         try {
           const response = await fetch(
-            ravenapi + 'VendorLot/?materialNumber=' + lotNumber,
+            ravenapi + 'VendorLot/'+lotNumber,
           );
           const responseJson = await response.json();
           return responseJson;

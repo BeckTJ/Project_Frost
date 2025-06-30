@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
-import RawMaterialAjax from '../data/RawMaterialAjax';
+import VendorLotAjax from '../data/VendorLotAjax';
 import LargeButton from "../components/LargeButton";
 
 export default RawMaterialScreen = ({navigation, route}) =>{
@@ -10,27 +10,13 @@ export default RawMaterialScreen = ({navigation, route}) =>{
     // const vendor = Vendor(12345,"Store", "Cow");
     // const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
     const [material,setMaterial] = useState({});
+    const [type,setType] = useState('');
+    const [lotNumber,setLotNumber] = useState('');
+    const [batch,setBatch] = useState(null);
 
-  
-    {/* system needs to screen vendor lots to see if it exsists */}
-    
-    const verifyVendorLotNumber = ({lotNumber}) =>{
-        async function CheckVendorLot() {
-            var vendorLot = await RawMaterialAjax.fetchVendorLot(lotNumber);
-            return vendorLot;
-        }
-        var lot = CheckVendorLot();
-    
-        var type; 
+    const lotNumberRef = useRef(null);
+    const batchNumberRef = useRef(null);
 
-        if(lot.vendorLotNumber === lotNumber){
-            type = "N";
-        }
-        else {
-            type = "Y";
-        }
-        rawMaterial.materialType = type;
-    }
     const handleClick = ()=>{
         setMaterial({rawMaterial});
         navigation.push('Home');
@@ -41,14 +27,29 @@ export default RawMaterialScreen = ({navigation, route}) =>{
         materialName:material.materialName,
         materialNumber: vendor.materialNumber,
         vendorName: vendor.vendorName,
-        materialType:null,
-        vendorLot:null,
+        materialType:type,
+        vendorLot:lotNumber,
         inspectionLot:0,
-        batchNumber:0,
+        batchNumber:batch,
         containerId:null,
         containerWeight:0,
         quantity : 0,
     };
+
+        {/* system needs to screen vendor lots to see if it exsists */}
+        {/* both vendor lot and batch number need to be screened together 
+            on vendor lot can have multiple batch numbers */}
+        const verifyVendorLotNumber = async ()  =>{
+            async function CheckVendorLot() {
+                var vendorLot = await VendorLotAjax.verifyVendorLot(lotNumber,batch);
+                return vendorLot;
+            }
+
+            var checkLot = await CheckVendorLot();
+            var type = (checkLot)?'N':'Y';
+            
+            setType(type);
+        };
 
     return(
         <View style={styles.container}>
@@ -78,9 +79,10 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                         <Text style={styles.inputTitle}>Material Type</Text>
                         <TextInput
                             style={styles.input}
-                            value={rawMaterial.materialType}
+                            value={type}
                             placeholder="R/Y/N"
                             multiline={false}
+                            editable={false}
                             maxLength={1}
                         />
                     </View>
@@ -91,24 +93,27 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                         <Text style={styles.inputTitle}>Vendor Lot Number</Text>
                         <TextInput
                             style={styles.longInput}
-                            value={rawMaterial.vendorLot}
-                            onChangeText={rawMaterial.vendorLot}
-                            onBlur={verifyVendorLotNumber} 
+                            value={lotNumber}
+                            onChangeText={setLotNumber}
+                            onBlur={(batch!==null)?verifyVendorLotNumber:()=>batchNumberRef.current.focus()}
                             placeholder="Vendor Lot Number"
                             maxLength={25}
                             multiline={false}
+                            ref={lotNumberRef}
                         />
                     </View>
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Batch Number</Text>
                         <TextInput
                             style={styles.input}
-                            value={rawMaterial.batchNumber}
-                            onChangeText={rawMaterial.batchNumber}
+                            value={batch}
+                            onChangeText={setBatch}
+                            onBlur={(lotNumber!=='')?verifyVendorLotNumber:()=>lotNumberRef.current.focus()}
                             placeholder={"1234567"}
                             keyboardType="number-pad"
                             maxLength={7}
                             multiline={false}
+                            ref={batchNumberRef}
                         />
                     </View>
                     <View style={styles.inputView}>
@@ -126,6 +131,7 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                 </View>
 
                 <View style={styles.formView}>
+                { vendor.vendorName == 'Reclaim' &&
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Inspection Lot Number</Text>
                         <TextInput
@@ -138,6 +144,8 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                             multiline={false}
                         />
                     </View>
+                }
+                {vendor.containerNumberRequired &&
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Container Number</Text>
                         <TextInput
@@ -149,6 +157,7 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                             multiline={false}
                         />
                     </View>
+                }
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Container Weight</Text>
                         <TextInput
