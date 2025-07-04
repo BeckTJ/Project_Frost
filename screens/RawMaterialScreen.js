@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Text, TextInput, View, StyleSheet } from "react-native";
+import { Text, TextInput, View, StyleSheet, Alert } from "react-native";
 import VendorLotAjax from '../data/VendorLotAjax';
 import LargeButton from "../components/LargeButton";
 
@@ -7,8 +7,6 @@ export default RawMaterialScreen = ({navigation, route}) =>{
     const hpMaterial = route.params.material;
     const vendor = route.params.vendor;
     
-    // const vendor = Vendor(12345,"Store", "Cow");
-    // const hpMaterial = Material(12344, 'Milk', 'MLK', '123-wer-456', 'AA', true, 100, 100, 'kg');
     const [material,setMaterial] = useState({});
     const [type,setType] = useState('');
     const [lotNumber,setLotNumber] = useState('');
@@ -16,11 +14,7 @@ export default RawMaterialScreen = ({navigation, route}) =>{
 
     const lotNumberRef = useRef(null);
     const batchNumberRef = useRef(null);
-
-    const handleClick = ()=>{
-        setMaterial({rawMaterial});
-        navigation.push('Home');
-    };
+    const qtyRef = useRef(null);
 
     var rawMaterial =
     {
@@ -36,20 +30,44 @@ export default RawMaterialScreen = ({navigation, route}) =>{
         quantity : 0,
     };
 
-        {/* system needs to screen vendor lots to see if it exsists */}
-        {/* both vendor lot and batch number need to be screened together 
-            on vendor lot can have multiple batch numbers */}
-        const verifyVendorLotNumber = async ()  =>{
-            async function CheckVendorLot() {
-                var vendorLot = await VendorLotAjax.verifyVendorLot(lotNumber,batch);
-                return vendorLot;
-            }
-
-            var checkLot = await CheckVendorLot();
-            var type = (checkLot)?'N':'Y';
+    const validateRequirements = () => {
+        {/*Check If Inspection Lot, Batch Number, or Container number 
+            are required fields */}
             
-            setType(type);
-        };
+        
+    };
+
+    {/* system needs to screen vendor lots to see if it exsists */}
+    {/* both vendor lot and batch number need to be screened together 
+        on vendor lot can have multiple batch numbers */}
+    {/*what if it is not batch managed? */}
+    const verifyVendorLot = async ()  =>{
+        async function CheckVendorLot() {
+
+            var vendorLot = (hpMaterial.batchManaged) ? 
+                await VendorLotAjax.verifyVendorLot(lotNumber,batch):
+                await VendorLotAjax.verifyVendorLot(lotNumber);
+            return vendorLot;
+        }
+        var checkLot = await CheckVendorLot();
+        var type = (checkLot)?'N':'Y';
+        
+        setType(type);
+    };
+    useEffect(() =>
+    {
+        if(vendor.batchManaged === true)
+        {
+            batchNumberRef.current.focus();
+        }
+        else{
+            qtyRef.current.focus();
+        }
+    }, [vendor.batchManaged === true]);
+    const handleClick = ()=>{
+        setMaterial({rawMaterial});
+        navigation.push('Home');
+    };
 
     return(
         <View style={styles.container}>
@@ -95,20 +113,22 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                             style={styles.longInput}
                             value={lotNumber}
                             onChangeText={setLotNumber}
-                            onBlur={(batch!==null)?verifyVendorLotNumber:()=>batchNumberRef.current.focus()}
+                            onBlur={(batch!==null && vendor.batchManaged === true)?
+                                verifyVendorLot:null}
                             placeholder="Vendor Lot Number"
                             maxLength={25}
                             multiline={false}
                             ref={lotNumberRef}
                         />
                     </View>
+                    {vendor.batchManaged === true &&
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Batch Number</Text>
                         <TextInput
                             style={styles.input}
                             value={batch}
                             onChangeText={setBatch}
-                            onBlur={(lotNumber!=='')?verifyVendorLotNumber:()=>lotNumberRef.current.focus()}
+                            onBlur={verifyVendorLot}
                             placeholder={"1234567"}
                             keyboardType="number-pad"
                             maxLength={7}
@@ -116,6 +136,7 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                             ref={batchNumberRef}
                         />
                     </View>
+                    }
                     <View style={styles.inputView}>
                         <Text style={styles.inputTitle}>Quantity</Text>
                         <TextInput
@@ -126,6 +147,8 @@ export default RawMaterialScreen = ({navigation, route}) =>{
                             placeholder={"1"}
                             maxLength={7}
                             multiline={false}
+                            ref={qtyRef}
+                            
                         />
                     </View>
                 </View>

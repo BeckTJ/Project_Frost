@@ -13,4 +13,15 @@ export default{
             console.log(err);
         }
     },
+    async verifyVendorLot(lotNumber){
+        try{
+            const response = await fetch(
+                ravenapi+`/VerifyVendorLotByLotNumber?lotNumber=${lotNumber}`,
+            );
+            const responseJson = await response.json();
+            return responseJson;
+        }catch(err){
+            console.log(err);
+        }
+    }
 };
