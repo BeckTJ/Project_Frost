@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb';
-import { children } from '@nozbe/watermelondb/decorators';
+import { children, field, text, relation } from '@nozbe/watermelondb/decorators';
 
 export default class RawMaterialVendors extends Model{
     static table = 'raw_material_vendors'

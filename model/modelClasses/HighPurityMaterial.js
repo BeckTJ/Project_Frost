@@ -5,7 +5,7 @@ export default class HighPurityMaterial extends Model{
     static table = 'high_purity_materials';
     static associations = {
         raw_material_vendors:
-            {type: 'has_many', foreignKey: 'material_number_ids'}, 
+            {type: 'has_many', foreignKey: 'material_number_id'}, 
     }
     @text('material_number_id') materialNumber
     @text('material_name') materialName
@@ -17,5 +17,5 @@ export default class HighPurityMaterial extends Model{
     @text('total_records') totalRecords
     @text('unit_of_issue') unitOfIssue
 
-    @children('material_Number_ids') materialNumberIds
+    @children('raw_material_vendors') vendors
 }

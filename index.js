@@ -4,7 +4,7 @@ import { Database } from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 
 import App from './App';
-import schema, { dbSchema } from './model/schema';
+import { dbSchema } from './model/schema';
 import migrations from './model/migrations';
 import HighPurityMaterial from './model/modelClasses/HighPurityMaterial';
 import RawMaterialVendors from './model/modelClasses/RawMaterialVendors';

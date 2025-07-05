@@ -12,6 +12,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+import com.nozbe.watermelondb.jsi.WatermelonDBJSIPackage;
+import com.facebook.react.bridge.JSIModulePackage;
 
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
@@ -27,6 +29,9 @@ class MainApplication : Application(), ReactApplication {
             // packages.add(new MyReactNativePackage());
             return packages
           }
+          @Override
+          protected JSIModulePackage getJSIModulePackage() {
+            return new WatermelonDBJSIPackage();
 
           override fun getJSMainModuleName(): String = ".expo/.virtual-metro-entry"
 
